@@ -81,6 +81,3 @@ The project generates:
 * multilabel confusion matrices
 * saved model weights (`toxic_model.weights.h5`)
 * confusion matrix report (`macierz_pomylek.txt`)
-
-```
-```
