@@ -95,24 +95,27 @@ def build_model():
 
     return model
 
-model = build_model()
+# model = build_model()
 
-history = model.fit(
-    {
-        "input_ids": X_train["input_ids"],
-        "attention_mask": X_train["attention_mask"]
-    },
-    y_train,
-    validation_data=(
-        {
-            "input_ids": X_val["input_ids"],
-            "attention_mask": X_val["attention_mask"]
-        },
-        y_val
-    ),
-    epochs=3,
-    batch_size=32
-)
+# history = model.fit(
+#     {
+#         "input_ids": X_train["input_ids"],
+#         "attention_mask": X_train["attention_mask"]
+#     },
+#     y_train,
+#     validation_data=(
+#         {
+#             "input_ids": X_val["input_ids"],
+#             "attention_mask": X_val["attention_mask"]
+#         },
+#         y_val
+#     ),
+#     epochs=3,
+#     batch_size=32
+# )
+
+model = build_model()
+model.load_weights("toxic_model.weights.h5")
 
 model.save("toxic_model.h5", include_optimizer=False)
 
@@ -137,5 +140,16 @@ print(f"\nTest accuracy: {acc: .4f}")
 # plt.savefig("accuracy_plot.png")
 #
 # plt.show()
+
+model.save_weights("toxic_model.weights.h5")
+
+y_pred_probs = model.predict(
+    {
+        "input_ids": X_test["input_ids"],
+        "attention_mask": X_test["attention_mask"]
+    }
+)
+
+y_pred = (y_pred_probs > 0.5).astype(int)
 
 
