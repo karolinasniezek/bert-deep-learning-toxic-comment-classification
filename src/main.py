@@ -10,7 +10,7 @@ import pandas as pd
 from transformers import BertTokenizer, TFBertModel
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
-from sklearn.metrics import multilabel_confusion_matrix
+from sklearn.metrics import multilabel_confusion_matrix, f1_score
 
 
 # 1. Stała wartość seed
@@ -160,5 +160,29 @@ with open("macierz_pomylek.txt", "w") as f:
         tekst = f"Klasa {numer_klasy}:\n{macierz}\n\n"
         print(tekst)
         f.write(tekst)
+
+y_val_probs = model.predict(
+    {
+        "input_ids": X_val["input_ids"],
+        "attention_mask": X_val["attention_mask"]
+    }
+)
+
+best_thresholds = []
+
+for i in range(6):
+    best_f1 = 0
+    best_thresh = 0.5
+    for thresh in np.arange(0.1, 0.90, 0.01):
+        preds = (y_val_probs[:, i] > thresh).astype(int)
+        f1 = f1_score(y_val[:, i], preds)
+        if f1 > best_f1:
+            best_f1 = f1
+            best_thresh = thresh
+    best_thresholds.append(best_thresh)
+
+    print("The best thresholds:", best_thresholds )
+
+
 
 
