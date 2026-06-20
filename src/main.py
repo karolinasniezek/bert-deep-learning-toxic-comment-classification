@@ -181,8 +181,18 @@ for i in range(6):
             best_thresh = thresh
     best_thresholds.append(best_thresh)
 
-    print("The best thresholds:", best_thresholds )
+print("The best thresholds:", best_thresholds )
 
+y_test_pred = np.zeros_like(y_pred_probs)
 
+for i in range(6):
+    y_test_pred[:, i] = (
+        y_pred_probs[:, i] > best_thresholds[i]
+    ).astype(int)
+
+cm = multilabel_confusion_matrix(y_test, y_test_pred)
+
+for i, matrix in enumerate(cm):
+    print(f"Klasa {i}:\n{matrix}\n")
 
 
