@@ -10,6 +10,7 @@ import pandas as pd
 from transformers import BertTokenizer, TFBertModel
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
+from sklearn.metrics import multilabel_confusion_matrix
 
 
 # 1. Stała wartość seed
@@ -151,5 +152,13 @@ y_pred_probs = model.predict(
 )
 
 y_pred = (y_pred_probs > 0.5).astype(int)
+
+cm = multilabel_confusion_matrix(y_test, y_pred)
+
+with open("macierz_pomylek.txt", "w") as f:
+    for numer_klasy, macierz in enumerate(cm):
+        tekst = f"Klasa {numer_klasy}:\n{macierz}\n\n"
+        print(tekst)
+        f.write(tekst)
 
 
