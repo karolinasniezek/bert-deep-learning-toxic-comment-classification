@@ -41,3 +41,46 @@ The project covers the complete machine learning workflow, including model train
 * Binary classification using configurable thresholds
 * Per-class threshold optimization
 * Multilabel confusion matrix generation
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone <repository-url>
+cd BertDeepLearningToxicCommentClasification
+```
+
+Create and activate a virtual environment:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+## Run
+
+Execute the main script:
+
+```bash
+python src/main.py
+```
+
+## Output
+
+The project generates:
+
+* model predictions
+* optimized classification thresholds
+* multilabel confusion matrices
+* saved model weights (`toxic_model.weights.h5`)
+* confusion matrix report (`macierz_pomylek.txt`)
+
+```
+```
